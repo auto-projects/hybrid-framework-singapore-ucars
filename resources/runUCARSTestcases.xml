@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="UCARS" parallel="false" thread-count="3">
+
+	<parameter name="url" value="https://ucars.sg/" />
+
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
+		<listener class-name="commons.MethodListener" />
+		<listener class-name="reportConfig.ExtentTestListenerV5" />
+		<listener class-name="reportConfig.ReportNGListener" />
+	</listeners>
+
+	<test name=" Run on Chrome">
+		<parameter name="browser" value="chrome" />
+		<classes>
+			<class name="sg.ucars.nonlogin.Homepage_UI_Non_Login" />
+		</classes>
+	</test>
+
+</suite>

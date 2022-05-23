@@ -1,0 +1,14 @@
+package pageObjects.sin.ucars;
+
+import org.openqa.selenium.WebDriver;
+
+import commons.BasePage;
+
+public class CarBuyerHomePageObject extends BasePage {
+	WebDriver driver;
+
+	public CarBuyerHomePageObject(WebDriver driver) {
+		this.driver = driver;
+	}
+
+}
