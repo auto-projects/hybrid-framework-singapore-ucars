@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -148,11 +147,11 @@ public class BasePage {
 		return driver.findElements(By.xpath(getDynamicXpath(xpathLocator, dynamicValues)));
 	}
 
-	public void clickToElement(WebDriver driver, String xpathLocator) {
+	public void clickOnElement(WebDriver driver, String xpathLocator) {
 		getWebElement(driver, xpathLocator).click();
 	}
 
-	public void clickToElement(WebDriver driver, String xpathLocator, String... dynamicValues) {
+	public void clickOnElement(WebDriver driver, String xpathLocator, String... dynamicValues) {
 		getWebElement(driver, getDynamicXpath(xpathLocator, dynamicValues)).click();
 	}
 
@@ -332,7 +331,7 @@ public class BasePage {
 	}
 
 	public void overrideGlobalTimeout(WebDriver driver, long timeout) {
-		driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
 	}
 
 	public boolean isElementDisplayed(WebDriver driver, String xpathLocator, String... dynamicValues) {
@@ -401,7 +400,7 @@ public class BasePage {
 				originalStyle);
 	}
 
-	protected void clickToElementByJS(WebDriver driver, String xpathLocator) {
+	protected void clickOnElementByJS(WebDriver driver, String xpathLocator) {
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 		jsExecutor.executeScript("arguments[0].click();", getWebElement(driver, xpathLocator));
 	}
@@ -540,7 +539,7 @@ public class BasePage {
 	// UCARS HOMEPAGE
 	public void clickOnButtonAtPopupByText(WebDriver driver, String buttonOnPopupByText) {
 		waitForElementClickable(driver, BasePageUI.BUTTON_BY_TEXT_ON_POPUP, buttonOnPopupByText);
-		clickToElement(driver, BasePageUI.BUTTON_BY_TEXT_ON_POPUP, buttonOnPopupByText);
+		clickOnElement(driver, BasePageUI.BUTTON_BY_TEXT_ON_POPUP, buttonOnPopupByText);
 
 	}
 
@@ -609,7 +608,7 @@ public class BasePage {
 
 	public void clickOnButtonAtNewCarsByBrandOrType(WebDriver driver, String buttonByID) {
 		waitForElementClickable(driver, BasePageUI.BUTTON_AT_NEW_CARS_BRAND_OR_TYPE_BY_ID, buttonByID);
-		clickToElement(driver, BasePageUI.BUTTON_AT_NEW_CARS_BRAND_OR_TYPE_BY_ID, buttonByID);
+		clickOnElement(driver, BasePageUI.BUTTON_AT_NEW_CARS_BRAND_OR_TYPE_BY_ID, buttonByID);
 
 	}
 
@@ -643,17 +642,47 @@ public class BasePage {
 	}
 
 	public void cleanBrowserCacheAndOpenHomepage(WebDriver driver) {
+		driver.get("chrome://settings/clearBrowserData");
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		WebElement clearData = (WebElement) jse.executeScript(
+				"return document.querySelector(\"body > settings-ui\").shadowRoot.querySelector(\"#main\").shadowRoot.querySelector(\"settings-basic-page\").shadowRoot.querySelector(\"#basicPage > settings-section:nth-child(8) > settings-privacy-page\").shadowRoot.querySelector(\"settings-clear-browsing-data-dialog\").shadowRoot.querySelector(\"#clearBrowsingDataConfirm\")");
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", clearData);
 		driver.manage().deleteAllCookies();
 		sleepInSecond(3);
-		driver.get("chrome://settings/clearBrowserData");
-		driver.findElement(By.xpath("//settings-ui")).sendKeys(Keys.ENTER);
-		sleepInSecond(5);
 		backToPage(driver);
 	}
 
 	public void clickOnButtonByText(WebDriver driver, String buttonByText) {
 		waitForElementClickable(driver, BasePageUI.BUTTON_BY_TEXT, buttonByText);
-		clickToElement(driver, BasePageUI.BUTTON_BY_TEXT, buttonByText);
+		clickOnElement(driver, BasePageUI.BUTTON_BY_TEXT, buttonByText);
+	}
+
+	// CARBUYER SIGN UP
+	public boolean carBuyerRoleIsFieldByIDEnabled(WebDriver driver, String textboxByID) {
+		waitForElementVisible(driver, BasePageUI.CAR_BUYER_ROLE_TEXTBOX_BY_ID, textboxByID);
+		return isElementEnabled(driver, BasePageUI.CAR_BUYER_ROLE_TEXTBOX_BY_ID, textboxByID);
+
+	}
+	public boolean dealerRoleIsFieldByIDEnabled(WebDriver driver, String textboxByID) {
+		waitForElementVisible(driver, BasePageUI.DEALER_ROLE_TEXTBOX_BY_ID, textboxByID);
+		return isElementEnabled(driver, BasePageUI.DEALER_ROLE_TEXTBOX_BY_ID, textboxByID);
+
+	}
+
+	public void inputTextboxByID(WebDriver driver, String textboxByID, String value) {
+		waitForElementVisible(driver, BasePageUI.CAR_BUYER_ROLE_TEXTBOX_BY_ID, textboxByID);
+		sendkeyToElement(driver, BasePageUI.CAR_BUYER_ROLE_TEXTBOX_BY_ID, value, textboxByID);
+	}
+
+	public boolean isSuccessfullNotiDisplayed(WebDriver driver, String messageValue) {
+		waitForElementVisible(driver, BasePageUI.SUCCESS_MESSAGE_VALUE, messageValue);
+		return isElementDisplayed(driver, BasePageUI.SUCCESS_MESSAGE_VALUE, messageValue);
+	}
+
+	public void clickOnTabByClass(WebDriver driver, String tabByID) {
+		waitForElementClickable(driver, BasePageUI.TAB_BY_CLASS, tabByID);
+		clickOnElement(driver, BasePageUI.TAB_BY_CLASS, tabByID);
+
 	}
 
 	public long longTimeout = GlobalConstants.LONG_TIMEOUT;

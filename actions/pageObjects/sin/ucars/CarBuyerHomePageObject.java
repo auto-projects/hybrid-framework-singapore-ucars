@@ -36,4 +36,10 @@ public class CarBuyerHomePageObject extends BasePage {
 
 	}
 
+	public void clickOnLoginButton() {
+		waitForElementClickable(driver, CarBuyerHomePageUI.LOGIN_BUTTON);
+		clickOnElement(driver, CarBuyerHomePageUI.LOGIN_BUTTON);
+
+	}
+
 }

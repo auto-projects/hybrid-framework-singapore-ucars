@@ -15,7 +15,7 @@
 	<test name=" Run on Chrome">
 		<parameter name="browser" value="chrome" />
 		<classes>
-			<class name="sg.ucars.nonlogin.Homepage_UI_Non_Login" />
+			<class name="sg.ucars.nonlogin.Homepage_UI_Non_Login_Signup" />
 		</classes>
 	</test>
 

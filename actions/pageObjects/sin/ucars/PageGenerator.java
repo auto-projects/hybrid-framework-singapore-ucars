@@ -15,4 +15,12 @@ public class PageGenerator {
 		return new LoginCarBuyerPageObject(driver);
 	}
 
+	public static SignupCarBuyerPageObject getSignupCarBuyerPage(WebDriver driver) {
+		return new SignupCarBuyerPageObject(driver);
+	}
+
+	public static ForgotPasswordPageObject getForgotPasswordPage(WebDriver driver) {
+		return new ForgotPasswordPageObject(driver);
+	}
+
 }
