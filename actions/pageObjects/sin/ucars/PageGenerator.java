@@ -11,4 +11,8 @@ public class PageGenerator {
 		return new CarBuyerHomePageObject(driver);
 	}
 
+	public static LoginCarBuyerPageObject getLoginCarBuyerPage(WebDriver driver) {
+		return new LoginCarBuyerPageObject(driver);
+	}
+
 }

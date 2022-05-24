@@ -14,8 +14,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.network.Network;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -646,9 +644,16 @@ public class BasePage {
 
 	public void cleanBrowserCacheAndOpenHomepage(WebDriver driver) {
 		driver.manage().deleteAllCookies();
-		driver.get("chrome://settings/clearBrowserData");        
-		driver.findElement(By.cssSelector("* /deep/ #clearBrowsingDataConfirm")).click();
+		sleepInSecond(3);
+		driver.get("chrome://settings/clearBrowserData");
+		driver.findElement(By.xpath("//settings-ui")).sendKeys(Keys.ENTER);
+		sleepInSecond(5);
 		backToPage(driver);
+	}
+
+	public void clickOnButtonByText(WebDriver driver, String buttonByText) {
+		waitForElementClickable(driver, BasePageUI.BUTTON_BY_TEXT, buttonByText);
+		clickToElement(driver, BasePageUI.BUTTON_BY_TEXT, buttonByText);
 	}
 
 	public long longTimeout = GlobalConstants.LONG_TIMEOUT;
